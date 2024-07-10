@@ -16,7 +16,24 @@ Or add the package as dependency to your site-package.
 
 ## Usage
 
-TODO
+You can access the orphanage module in the Neos backend under the "Management" section.
+
+There you can currently either delete or adopt orphan nodes.
+
+### Adopting nodes
+
+To adopt orphan nodes you will first need to allow the new document type 
+`Shel.Neos.Orphanage:Document.Orphanage` to be created via constraints. F.e. on your homepage node.
+
+Afterwards, orphan nodes can be adopted an will automatically be moved to the new page.
+
+## Open tasks
+
+- [ ] Get Neos patch merged and set as next Neos Version as minimal dependency after release
+- [ ] Improve HTMX usage and integration
+  - [ ] Prevent missing styles after reloading the module after paginating 
+- [ ] Link orphanage node in module and show hint if none exists
+- [ ] Allow searching for node identifiers
 
 ## Contribute
 
