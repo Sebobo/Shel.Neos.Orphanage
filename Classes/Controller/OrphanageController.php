@@ -161,7 +161,7 @@ class OrphanageController extends AbstractModuleController
                 NodeData::class,
                 'n2',
                 Join::WITH,
-                'n.parentPathHash = n2.pathHash AND n2.workspace IN (:workspaceList) AND (n.dimensionsHash = n2.dimensionsHash OR n2.dimensionsHash = :dimensionLess)'
+                'n.parentPathHash = n2.pathHash AND n2.workspace IN (:workspaceList)'
             )
             ->where('n2.path IS NULL')
             ->andWhere($queryBuilder->expr()->not('n.path = :slash'))
@@ -171,7 +171,6 @@ class OrphanageController extends AbstractModuleController
             'workspaceList' => $workspaceList,
             'slash' => '/',
             'workspace' => $workspaceName,
-            'dimensionLess' => 'd751713988987e9331980363e24189ce',
         ];
 
         if ($nodeTypeFilter !== null) {
@@ -207,7 +206,7 @@ class OrphanageController extends AbstractModuleController
                 NodeData::class,
                 'n2',
                 Join::WITH,
-                'n.parentPathHash = n2.pathHash AND n2.workspace IN (:workspaceList) AND (n.dimensionsHash = n2.dimensionsHash OR n2.dimensionsHash = :dimensionLess)'
+                'n.parentPathHash = n2.pathHash AND n2.workspace IN (:workspaceList)'
             )
             ->where('n2.path IS NULL')
             ->andWhere($queryBuilder->expr()->not('n.path = :slash'))
@@ -220,7 +219,6 @@ class OrphanageController extends AbstractModuleController
             'workspaceList' => $workspaceList,
             'slash' => '/',
             'workspace' => $workspaceName,
-            'dimensionLess' => 'd751713988987e9331980363e24189ce',
         ];
 
         if ($nodeTypeFilter !== null) {
@@ -255,7 +253,7 @@ class OrphanageController extends AbstractModuleController
                 NodeData::class,
                 'n2',
                 Join::WITH,
-                'n.parentPathHash = n2.pathHash AND n2.workspace IN (:workspaceList) AND (n.dimensionsHash = n2.dimensionsHash OR n2.dimensionsHash = :dimensionLess)'
+                'n.parentPathHash = n2.pathHash AND n2.workspace IN (:workspaceList)'
             )
             ->where('n2.path IS NULL')
             ->andWhere($queryBuilder->expr()->not('n.path = :slash'))
@@ -265,7 +263,6 @@ class OrphanageController extends AbstractModuleController
             'workspaceList' => $workspaceList,
             'slash' => '/',
             'workspace' => $workspaceName,
-            'dimensionLess' => 'd751713988987e9331980363e24189ce',
         ];
 
         return $query
