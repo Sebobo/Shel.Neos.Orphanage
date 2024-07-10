@@ -27,21 +27,16 @@ use Neos\Neos\Controller\Module\AbstractModuleController;
 use Neos\Neos\Domain\Service\ContentContextFactory;
 
 #[Flow\Scope('singleton')]
-class OrphanageController extends AbstractModuleController
+final class OrphanageController extends AbstractModuleController
 {
     protected $defaultViewObjectName = FusionView::class;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    #[Flow\Inject]
-    protected $entityManager;
-
-    #[Flow\Inject]
-    protected WorkspaceRepository $workspaceRepository;
-
-    #[Flow\Inject]
-    protected ContentContextFactory $contentContextFactory;
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly WorkspaceRepository $workspaceRepository,
+        private readonly ContentContextFactory $contentContextFactory
+    ) {
+    }
 
     public function indexAction(
         string $workspaceName = 'live',
@@ -84,7 +79,6 @@ class OrphanageController extends AbstractModuleController
     {
         $this->removeNodeAndChildNodesInWorkspaceByPath($nodePath, $workspaceName);
         $this->addFlashMessage(sprintf('Removed orphan node in path "%s"', $nodePath));
-        $this->sendHTMXResponse();
     }
 
     public function adoptOrphanNodeAction(string $nodePath, string $workspaceName): void
@@ -106,8 +100,7 @@ class OrphanageController extends AbstractModuleController
                 'No orphanage node found',
                 Message::SEVERITY_ERROR
             );
-            $this->sendHTMXResponse(404);
-            return;
+            $this->throwStatus(404);
         }
 
         $node = $context->getNode($nodePath);
@@ -118,7 +111,6 @@ class OrphanageController extends AbstractModuleController
             $node->moveInto($parentNode->getNode('orphans'));
             $this->addFlashMessage(sprintf('Adopted content node "%s" into orphanage', $nodePath));
         }
-        $this->sendHTMXResponse();
     }
 
     /**
@@ -287,34 +279,6 @@ class OrphanageController extends AbstractModuleController
             )
             ->getQuery()
             ->getSingleScalarResult();
-    }
-
-    /**
-     * This method should be used to return the stored flash messages via HTMX trigger header
-     * and set the given status code for HTMX to use.
-     */
-    protected function sendHTMXResponse(int $statusCode = 200): void
-    {
-        try {
-            $encodedFlashMessages = json_encode([
-                'app:notify' => array_map(static function (Message $message) {
-                    return [
-                        'severity' => $message->getSeverity(),
-                        'message' => $message->getMessage(),
-                        'title' => $message->getTitle(),
-                    ];
-                },
-                    $this->controllerContext->getFlashMessageContainer()->getMessagesAndFlush(),
-                )
-            ],
-                JSON_THROW_ON_ERROR
-            );
-        } catch (\JsonException) {
-            $encodedFlashMessages = '[]';
-        }
-
-        $this->response->setHttpHeader('HX-Trigger', $encodedFlashMessages);
-        $this->response->setStatusCode($statusCode);
     }
 
 }

@@ -1,0 +1,10 @@
+Neos:
+  Flow:
+    mvc:
+      flashMessages:
+        containers:
+          'httpHeaderFlashMessages':
+            storage: 'Shel\Neos\Orphanage\Mvc\HttpHeaderFlashMessageStorage'
+            requestPatterns:
+              'htmx':
+                pattern: 'Shel\Neos\Orphanage\Mvc\HtmxRequestPattern'
