@@ -2,15 +2,26 @@ prototype(Shel.Neos.Orphanage:Component.Pagination.Link) < prototype(Neos.Fusion
     pageNumber = 1
     current = false
 
+    @private {
+        uri = Neos.Fusion:UriBuilder {
+            arguments.currentPage = ${props.pageNumber}
+            action = 'index'
+            format = 'htmx'
+        }
+        htmxUri = Neos.Fusion:UriBuilder {
+            arguments.currentPage = ${props.pageNumber}
+            action = 'index'
+            format = 'html'
+        }
+    }
+
     renderer = afx`
         <li class={props.current ? 'current' : null}>
-            <a title={'Go to page ' + props.pageNumber}>
-                <Neos.Fusion:UriBuilder
-                    @path="attributes.href"
-                    arguments.currentPage={props.pageNumber}
-                    action="index"
-                    format="htmx"
-                />
+            <a
+                title={'Go to page ' + props.pageNumber}
+                href={private.uri}
+                hx-push-url={private.htmxUri}
+            >
                 {props.pageNumber}
             </a>
         </li>

@@ -15,7 +15,6 @@ prototype(Shel.Neos.Orphanage:Component.Pagination) < prototype(Neos.Fusion:Comp
         >
             <ul
                 hx-swap="none"
-                hx-push-url="true"
                 hx-include="[name='moduleArguments[nodeTypeFilter]']"
             >
                 <Shel.Neos.Orphanage:Component.Pagination.Link
