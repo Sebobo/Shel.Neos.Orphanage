@@ -44,6 +44,12 @@ final class OrphanageController extends AbstractModuleController
         int $currentPage = 1
     ): void {
         $limit = 20;
+        $totalOrphanNodes = $this->getNumberOfOrphanedNodes($workspaceName, $nodeTypeFilter);
+        $maxPages = (int)ceil($totalOrphanNodes / $limit);
+        if ($currentPage > $maxPages) {
+            $currentPage = 1;
+        }
+
         $offset = ($currentPage - 1) * $limit;
         $nodeTypeFilter = $nodeTypeFilter ?: null;
 
@@ -61,8 +67,6 @@ final class OrphanageController extends AbstractModuleController
 
         $filterableNodeTypes = $this->getOrphanNodeTypes($workspaceName);
         sort($filterableNodeTypes);
-
-        $totalOrphanNodes = $this->getNumberOfOrphanedNodes($workspaceName, $nodeTypeFilter);
 
         $this->view->assignMultiple([
             'totalOrphanNodes' => $totalOrphanNodes,

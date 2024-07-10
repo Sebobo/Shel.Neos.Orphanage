@@ -5,6 +5,7 @@ prototype(Shel.Neos.Orphanage:Component.NodeTypeFilter) < prototype(Neos.Fusion:
     renderer = afx`
         <Neos.Fusion.Form:Form
             form.target.action="index"
+            form.target.format="htmx"
             form.data.nodeTypeFilter={props.nodeTypeFilter}
             form.data.nodeTypeFilter.@if={props.nodeTypeFilter}
             attributes.hx-disabled-elt="find select, find button"
