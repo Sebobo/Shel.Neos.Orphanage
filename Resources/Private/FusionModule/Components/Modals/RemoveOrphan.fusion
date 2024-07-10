@@ -42,8 +42,7 @@ prototype(Shel.Neos.Orphanage:Component.Modal.RemoveOrphan) < prototype(Neos.Fus
                     attributes.hx-target="closest tr"
                     attributes.hx-swap="delete"
                     attributes.hx-disabled-elt="find button"
-                    attributes.hx-indicator="#indicator"
-                    attributes.hx-include="[name='moduleArguments[nodeTypeFilter]']"
+                    attributes.hx-on--after-request={'document.getElementById("' + private.popoverId + '").hidePopover()'}
                 >
                     <Neos.Fusion.Form:Hidden
                         field.name="nodePath"
