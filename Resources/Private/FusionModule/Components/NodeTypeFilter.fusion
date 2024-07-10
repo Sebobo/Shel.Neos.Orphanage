@@ -1,0 +1,30 @@
+prototype(Shel.Neos.Orphanage:Component.NodeTypeFilter) < prototype(Neos.Fusion:Component) {
+    nodeTypeFilter = null
+    filterableNodeTypes = ${[]}
+
+    renderer = afx`
+        <Neos.Fusion.Form:Form
+            form.target.action="index"
+            form.data.nodeTypeFilter={props.nodeTypeFilter}
+            form.data.nodeTypeFilter.@if={props.nodeTypeFilter}
+            attributes.hx-disabled-elt="find select, find button"
+            attributes.hx-indicator="#indicator"
+            attributes.hx-post={form.getTarget()}
+            attributes.hx-target="#results"
+            attributes.hx-trigger="change from:find select"
+        >
+            <Neos.Fusion.Form:Neos.BackendModule.FieldContainer label="Filter by nodetype">
+                <Neos.Fusion.Form:Select
+                    field.name="nodeTypeFilter"
+                >
+                    <Neos.Fusion.Form:Select.Option>All</Neos.Fusion.Form:Select.Option>
+                    <Neos.Fusion:Loop items={props.filterableNodeTypes} itemName="nodeTypeName">
+                        <Neos.Fusion.Form:Select.Option option.value={nodeTypeName}>
+                            {nodeTypeName}
+                        </Neos.Fusion.Form:Select.Option>
+                    </Neos.Fusion:Loop>
+                </Neos.Fusion.Form:Select>
+            </Neos.Fusion.Form:Neos.BackendModule.FieldContainer>
+        </Neos.Fusion.Form:Form>
+    `
+}

@@ -1,0 +1,38 @@
+##
+# Container node type for orphaned nodes, only 1 instance should exist in the site
+#
+'Shel.Neos.Orphanage:Document.Orphanage':
+  final: true
+  superTypes:
+    'Neos.Neos:Document': true
+  ui:
+    label: Orphanage
+    icon: 'house-user'
+    help:
+      message: >
+        This document is used to store orphaned nodes which are restored via the "Orphanage" module.
+        Those nodes can then be restored to their desired location.
+  constraints:
+    # We allow any kind of document node to be stored here
+    nodeTypes:
+      '*': true
+  childNodes:
+    orphans:
+      type: 'Neos.Neos:ContentCollection'
+      constraints:
+        # We allow any kind of content node to be stored here
+        nodeTypes:
+          '*': true
+  properties:
+    # The document is only used to store orphaned nodes, so we hide it from the index and in the frontend
+    _hidden:
+      defaultValue: true
+    _hiddenInIndex:
+      defaultValue: true
+
+# Don't allow adding an Orphanage document anywhere in the site by default
+# This should be adjusted for a sites homepage or other places where orphaned nodes should be stored
+'Neos.Neos:Document':
+  constraints:
+    nodeTypes:
+      'Shel.Neos.Orphanage:Document.Orphanage': false

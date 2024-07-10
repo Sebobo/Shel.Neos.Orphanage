@@ -1,0 +1,16 @@
+privilegeTargets:
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+    'Shel.Neos.Orphanage:Module':
+      matcher: 'method(Shel\Neos\Orphanage\Controller\OrphanageController->(.*)Action())'
+
+  'Neos\Neos\Security\Authorization\Privilege\ModulePrivilege':
+    'Shel.Neos.Orphanage:Backend.Module.Management.Orphanage':
+      matcher: 'management/orphanage'
+
+roles:
+  'Neos.Neos:AbstractEditor':
+    privileges:
+      - privilegeTarget: 'Shel.Neos.Orphanage:Backend.Module.Management.Orphanage'
+        permission: GRANT
+      - privilegeTarget: 'Shel.Neos.Orphanage:Module'
+        permission: GRANT

@@ -1,0 +1,14 @@
+Shel.Neos.Orphanage.OrphanageController {
+    index = Shel.Neos.Orphanage:Views.Index {
+        currentPage = ${currentPage}
+        pageCount = ${pageCount}
+        orphanNodes = ${orphanNodes}
+        totalOrphanNodes = ${totalOrphanNodes}
+        filterableNodeTypes = ${filterableNodeTypes}
+        nodeTypeFilter = ${nodeTypeFilter}
+    }
+
+    # Async actions which don't need any rendering, HTMX instructions are sent via HTTP headers
+    removeOrphanNode = ''
+    adoptOrphanNode = ''
+}

@@ -1,0 +1,7 @@
+- requestFilter: 'isPackage("Shel.Neos.Orphanage") && isController("Orphanage")'
+  viewObjectName: 'Neos\Fusion\View\FusionView'
+  options:
+    fusionPathPatterns:
+      - 'resource://Neos.Fusion.Form/Private/Fusion'
+      - 'resource://Neos.Fusion/Private/Fusion'
+      - 'resource://Shel.Neos.Orphanage/Private/FusionModule'

@@ -1,0 +1,40 @@
+prototype(Shel.Neos.Orphanage:Component.Pagination) < prototype(Neos.Fusion:Component) {
+    pageCount = 1
+    currentPage = 1
+
+    @private {
+        pageNumbers = ${Array.range(Math.max(1, props.currentPage - 3), Math.min(props.pageCount, props.currentPage + 3))}
+    }
+
+    renderer = afx`
+        <nav
+            id="pagination"
+            class="page-navigation"
+            aria-label="Page navigation"
+            hx-swap-oob="true"
+        >
+            <ul
+                hx-swap="none"
+                hx-push-url="true"
+                hx-include="[name='moduleArguments[nodeTypeFilter]']"
+            >
+                <Shel.Neos.Orphanage:Component.Pagination.Link
+                    pageNumber={1}
+                    @if={props.currentPage > 4}
+                />
+                <li @if={props.currentPage > 5}>…</li>
+                <Neos.Fusion:Loop items={private.pageNumbers}>
+                    <Shel.Neos.Orphanage:Component.Pagination.Link
+                        current={props.currentPage == item}
+                        pageNumber={item}
+                    />
+                </Neos.Fusion:Loop>
+                <li @if={props.currentPage < props.pageCount - 4}>…</li>
+                <Shel.Neos.Orphanage:Component.Pagination.Link
+                    pageNumber={props.pageCount}
+                    @if={props.currentPage < props.pageCount - 3}
+                />
+            </ul>
+        </nav>
+    `
+}

@@ -1,0 +1,125 @@
+/**
+ * Table styles
+ */
+.neos.neos-module table.neos-table th,
+.neos.neos-module table.neos-table td {
+    line-height: 1.6;
+    padding: 0.5em 2ch;
+}
+
+.neos-table th:last-child {
+    width: 130px;
+}
+
+/**
+ * Form styles
+ */
+.neos select {
+    width: auto;
+}
+
+/**
+ * Typography
+ */
+.neos-content strong {
+    font-weight: bold;
+}
+
+/**
+ * Indicator styles
+ */
+.loadingIndicator__container {
+    left: 0;
+    top: var(--unit);
+    height: 2px;
+    position: absolute;
+    width: 100vw;
+    z-index: var(--zIndex-LoadingIndicatorContainer);
+}
+
+.loadingIndicator {
+    height: 2px;
+    position: relative;
+    width: 100%;
+}
+.loadingIndicator__bar {
+    height: 100%;
+    position: relative;
+    background-color: #ff8700;
+    animation: cssload-width 2s cubic-bezier(.45, 0, 1, 1) infinite;
+}
+
+@keyframes cssload-width {
+    0%,
+    100% {
+        transition-timing-function: cubic-bezier(1, 0, .65, .85);
+    }
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+/**
+ * Popover styles
+ */
+[popover] {
+    /* Undo css reset */
+    margin: auto;
+
+    /* Component styles */
+    color: white;
+    background: var(--grayDark);
+    border: 1px solid var(--grayLight);
+    padding: 0;
+    border-radius: 0;
+    outline: none;
+    max-width: 600px;
+}
+
+[popover]::backdrop {
+    backdrop-filter: blur(3px);
+}
+
+[popover] header {
+    font-size: calc(var(--generalFontSize) + 2px);
+    margin: var(--defaultMargin);
+    line-height: calc(var(--generalFontSize) + 4px);
+    box-sizing: border-box;
+}
+
+[popover] section {
+    margin: var(--defaultMargin);
+    color: var(--textSubtleLight);
+}
+
+[popover] .neos-close {
+    color: white;
+    font-size: calc(var(--generalFontSize) + 4px);
+    background: transparent;
+    width: var(--unit);
+    height: var(--unit);
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-left: none;
+    text-shadow: none;
+}
+
+[popover] footer {
+    background: transparent;
+    margin: var(--defaultMargin);
+    display: flex;
+    gap: var(--spacing-Full);
+    justify-content: flex-end;
+}
+
+.neos [popover] input {
+    width: 100%;
+}
+
+.neos [popover] p {
+    white-space: pre-wrap;
+}

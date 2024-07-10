@@ -1,0 +1,63 @@
+prototype(Shel.Neos.Orphanage:Component.Modal.AdoptOrphan) < prototype(Neos.Fusion:Component) {
+    orphanNode = null
+
+    @private {
+        popoverId = ${'orphan-adopt-' + props.orphanNode.path + '-' + props.orphanNode.workspace}
+    }
+
+    renderer = afx`
+        <div popover id={private.popoverId}>
+            <header>
+                <button
+                    type="button"
+                    class="neos-close neos-button"
+                    popovertarget={private.popoverId}
+                    popovertargetaction="close"
+                >
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="neos-header">
+                    Do you really want to adopt the node "{props.orphanNode.path}" and its child nodes?
+                </div>
+            </header>
+            <section>
+                <p>
+                    This will adopt the node and its children and move them to the given parent node.
+                </p>
+                <br />
+                <Neos.Fusion.Form:Form
+                    form.target.action="adoptOrphanNode"
+                    form.target.format="htmx"
+                    attributes.class="neos-inline"
+                    attributes.hx-post={form.getTarget()}
+                    attributes.hx-target="closest tr"
+                    attributes.hx-swap="delete"
+                    attributes.hx-disabled-elt="find button"
+                    attributes.hx-indicator="#indicator"
+                >
+                    <Neos.Fusion.Form:Hidden
+                        field.name="nodePath"
+                        field.value={orphanNode.path}
+                    />
+                    <Neos.Fusion.Form:Hidden
+                        field.name="workspaceName"
+                        field.value={orphanNode.workspace}
+                    />
+                    <Neos.Fusion.Form:Button attributes.class="neos-button neos-button-danger">
+                        Yes, adopt the node
+                    </Neos.Fusion.Form:Button>
+                </Neos.Fusion.Form:Form>
+            </section>
+            <footer>
+                <button
+                    type="button"
+                    class="neos-button"
+                    popovertarget={private.popoverId}
+                    popovertargetaction="close"
+                >
+                    Cancel
+                </button>
+            </footer>
+        </div>
+    `
+}

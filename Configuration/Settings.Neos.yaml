@@ -1,0 +1,19 @@
+Neos:
+  Neos:
+    modules:
+      management:
+        submodules:
+           orphanage:
+            label: 'CR Orphanage'
+            controller: 'Shel\Neos\Orphanage\Controller\OrphanageController'
+            description: 'Cleanup orphaned nodes in the Content Repository'
+            icon: 'fas fa-child'
+            mainStylesheet: 'Lite'
+            resource: 'Shel.Neos.Orphanage:Backend.Module'
+            privilegeTarget: 'Shel.Neos.Orphanage:Module'
+            additionalResources:
+              styleSheets:
+                - 'resource://Shel.Neos.Orphanage/Public/Styles/Module.css'
+              javaScripts:
+                - 'resource://Shel.Neos.Orphanage/Public/Scripts/htmx.min.js'
+                - 'resource://Shel.Neos.Orphanage/Public/Scripts/Module.js'

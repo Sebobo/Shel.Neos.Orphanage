@@ -1,0 +1,54 @@
+prototype(Shel.Neos.Orphanage:Component.NodeTable) < prototype(Neos.Fusion:Component) {
+    totalOrphanNodes = 0
+    orphanNodes = ${[]}
+
+    renderer = afx`
+        <section id="results" hx-swap-oob="true">
+            <br />
+            <p>
+                Found <strong>{props.totalOrphanNodes}</strong> orphan nodes.
+            </p>
+            <table class="neos-table">
+                <thead>
+                <tr>
+                    <th>Path</th>
+                    <th>Workspace</th>
+                    <th>NodeType</th>
+                    <th>Descendant nodes</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <Neos.Fusion:Loop items={props.orphanNodes} itemName="orphanNode">
+                    <tr>
+                        <td>{orphanNode.path}</td>
+                        <td>{orphanNode.workspace}</td>
+                        <td>{orphanNode.nodeType}</td>
+                        <td>{orphanNode.childNodes}</td>
+                        <td>
+                            <button
+                                class="neos-button neos-button-danger"
+                                type="button"
+                                title="Remove node"
+                                popovertarget={'orphan-remove-' + orphanNode.path + '-' + orphanNode.workspace}
+                            >
+                                <i class="fas fa-trash icon-white"></i>
+                            </button>
+                            <button
+                                class="neos-button neos-button-danger"
+                                type="button"
+                                title="Adopt node"
+                                popovertarget={'orphan-adopt-' + orphanNode.path + '-' + orphanNode.workspace}
+                            >
+                                <i class="fas fa-hands-helping icon-white"></i>
+                            </button>
+                            <Shel.Neos.Orphanage:Component.Modal.RemoveOrphan orphanNode={orphanNode} />
+                            <Shel.Neos.Orphanage:Component.Modal.AdoptOrphan orphanNode={orphanNode} />
+                        </td>
+                    </tr>
+                </Neos.Fusion:Loop>
+                </tbody>
+            </table>
+        </section>
+    `
+}

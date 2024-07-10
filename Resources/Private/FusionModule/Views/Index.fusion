@@ -1,0 +1,52 @@
+prototype(Shel.Neos.Orphanage:Views.Index) < prototype(Neos.Fusion:Component) {
+    currentPage = 1
+    pageCount = 1
+    totalOrphanNodes = 0
+    orphanNodes = ${[]}
+    filterableNodeTypes = ${[]} // e.g. ['Neos.Neos:Document', 'Neos.Neos:Content']
+    nodeTypeFilter = ''
+
+    renderer = Neos.Fusion:Match {
+        @subject = ${request.format}
+        @default = afx`
+            <section
+                hx-indicator="#indicator"
+                hx-include="[name='moduleArguments[nodeTypeFilter]']"
+                hx-boost="true"
+            >
+                <Shel.Neos.Orphanage:Component.HTMXConfig />
+                <Shel.Neos.Orphanage:Component.FlashMessages flashMessages={flashMessages}/>
+                <Shel.Neos.Orphanage:Component.Indicator />
+                <div
+                    class="neos-content neos-container-fluid"
+                    hx-vals={'{"moduleArguments[currentPage]": ' + props.currentPage + '}'}
+                >
+                    <div class="neos-row-fluid">
+                        <Shel.Neos.Orphanage:Component.NodeTypeFilter
+                            nodeTypeFilter={props.nodeTypeFilter}
+                            filterableNodeTypes={props.filterableNodeTypes}
+                        />
+                        <Shel.Neos.Orphanage:Component.NodeTable
+                            orphanNodes={props.orphanNodes}
+                            totalOrphanNodes={props.totalOrphanNodes}
+                        />
+                    </div>
+                </div>
+                <Shel.Neos.Orphanage:Component.Pagination
+                    pageCount={props.pageCount}
+                    currentPage={props.currentPage}
+                />
+            </section>
+        `
+        htmx = afx`
+            <Shel.Neos.Orphanage:Component.NodeTable
+                orphanNodes={orphanNodes}
+                totalOrphanNodes={totalOrphanNodes}
+            />
+            <Shel.Neos.Orphanage:Component.Pagination
+                pageCount={props.pageCount}
+                currentPage={props.currentPage}
+            />
+        `
+    }
+}
