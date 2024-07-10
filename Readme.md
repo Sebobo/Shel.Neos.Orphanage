@@ -4,6 +4,10 @@ This package provides a backend module to handle orphan nodes in Neos CMS 8.3 & 
 
 ⚠️ This package currently only works properly with this [Neos patch](https://github.com/neos/neos-development-collection/pull/5179).
 
+## Screenshot
+
+![Orphanage module](Documentation/OrphanageExample.png)
+
 ## Installation
 
 Run the following command in your Neos project:
