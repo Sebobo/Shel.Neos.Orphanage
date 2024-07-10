@@ -8,7 +8,7 @@ privilegeTargets:
       matcher: 'management/orphanage'
 
 roles:
-  'Neos.Neos:AbstractEditor':
+  'Neos.Neos:Administrator':
     privileges:
       - privilegeTarget: 'Shel.Neos.Orphanage:Backend.Module.Management.Orphanage'
         permission: GRANT
