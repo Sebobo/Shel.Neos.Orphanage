@@ -2,7 +2,7 @@
 
 This package provides a backend module to handle orphan nodes in Neos CMS 8.3 & 8.4.
 
-⚠️ This package currently only works properly with this [Neos patch]().
+⚠️ This package currently only works properly with this [Neos patch](https://github.com/neos/neos-development-collection/pull/5179).
 
 ## Installation
 
