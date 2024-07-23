@@ -36,6 +36,18 @@ prototype(Shel.Neos.Orphanage:Views.Index) < prototype(Neos.Fusion:Component) {
                     pageCount={props.pageCount}
                     currentPage={props.currentPage}
                 />
+                <div class="neos-footer">
+                    <button
+                        class="neos-button neos-button-danger"
+                        type="button"
+                        title="Remove node"
+                        popovertarget="orphan-remove-selected"
+                        @if={props.totalOrphanNodes > 0}
+                    >
+                        <i class="fas fa-trash icon-white"></i> Remove all currently filtered nodes
+                    </button>
+                    <Shel.Neos.Orphanage:Component.Modal.RemoveSelectedOrphans />
+                </div>
             </section>
         `
         htmx = afx`

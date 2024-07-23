@@ -6,7 +6,7 @@ prototype(Shel.Neos.Orphanage:Component.NodeTable) < prototype(Neos.Fusion:Compo
         <section id="results" hx-swap-oob="true">
             <br />
             <p>
-                Found <strong>{props.totalOrphanNodes}</strong> orphan nodes.
+                <strong>{props.totalOrphanNodes}</strong> orphaned nodes found that match the filter.
             </p>
             <table class="neos-table">
                 <thead>

@@ -6,6 +6,8 @@ prototype(Shel.Neos.Orphanage:Component.Pagination) < prototype(Neos.Fusion:Comp
         pageNumbers = ${Array.range(Math.max(1, props.currentPage - 3), Math.min(props.pageCount, props.currentPage + 3))}
     }
 
+    @if.hasPagination = ${this.pageCount > 1}
+
     renderer = afx`
         <nav
             id="pagination"

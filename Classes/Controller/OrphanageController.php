@@ -85,6 +85,30 @@ final class OrphanageController extends AbstractModuleController
         $this->addFlashMessage(sprintf('Removed orphan node in path "%s"', $nodePath));
     }
 
+    public function removeSelectedOrphanNodesAction(string $workspaceName, string $nodeTypeFilter = null): void
+    {
+        $orphanedNodes = $this->findOrphanNodes($workspaceName, $nodeTypeFilter);
+        $orphanedNodesCount = count($orphanedNodes);
+        foreach ($orphanedNodes as $orphanedNode) {
+            $this->removeNodeAndChildNodesInWorkspaceByPath($orphanedNode->getPath(), $workspaceName);
+        }
+        if ($nodeTypeFilter) {
+            $this->addFlashMessage(sprintf(
+                'Removed %d orphan nodes of type "%s" in workspace "%s"',
+                $orphanedNodesCount, $nodeTypeFilter, $workspaceName
+            ));
+        } else {
+            $this->addFlashMessage(sprintf(
+                'Removed %d orphan nodes in workspace "%s"',
+                $orphanedNodesCount, $workspaceName
+            ));
+        }
+        $this->redirect('index', null, null, [
+            'workspaceName' => $workspaceName,
+            'nodeTypeFilter' => $nodeTypeFilter,
+        ]);
+    }
+
     public function adoptOrphanNodeAction(string $nodePath, string $workspaceName): void
     {
         $context = $this->contentContextFactory->create([
@@ -169,7 +193,7 @@ final class OrphanageController extends AbstractModuleController
             'workspace' => $workspaceName,
         ];
 
-        if ($nodeTypeFilter !== null) {
+        if ($nodeTypeFilter) {
             $query->andWhere('n.nodeType = :nodetype');
             $parameters['nodetype'] = $nodeTypeFilter;
         }
@@ -217,7 +241,7 @@ final class OrphanageController extends AbstractModuleController
             'workspace' => $workspaceName,
         ];
 
-        if ($nodeTypeFilter !== null) {
+        if ($nodeTypeFilter) {
             $query->andWhere('n.nodeType = :nodetype');
             $parameters['nodetype'] = $nodeTypeFilter;
         }

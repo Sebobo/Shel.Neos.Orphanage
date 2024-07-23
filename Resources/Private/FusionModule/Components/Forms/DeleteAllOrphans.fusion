@@ -1,0 +1,60 @@
+prototype(Shel.Neos.Orphanage:Component.Modal.RemoveOrphan) < prototype(Neos.Fusion:Component) {
+    orphanNode = null
+
+    @private {
+        popoverId = ${'orphan-remove-selected'}
+    }
+
+    renderer = afx`
+        <div popover id={private.popoverId}>
+            <header>
+                <button
+                    type="button"
+                    class="neos-close neos-button"
+                    popovertarget={private.popoverId}
+                    popovertargetaction="close"
+                >
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="neos-header">
+                    Do you really want to delete all selected orphan nodes?
+                </div>
+            </header>
+            <section>
+                <p>
+                    This will remove the nodes and their child nodes. This operation cannot be undone.
+                </p>
+            </section>
+            <footer>
+                <button
+                    type="button"
+                    class="neos-button"
+                    popovertarget={private.popoverId}
+                    popovertargetaction="close"
+                >
+                    Cancel
+                </button>
+                <Neos.Fusion.Form:Form
+                    form.target.action="removeSelectedOrphanNodes"
+                    form.target.format="htmx"
+                    attributes.class="neos-inline"
+                    attributes.hx-post={form.getTarget()}
+                    attributes.hx-disabled-elt="find button"
+                    attributes.hx-on--after-request={'document.getElementById("' + private.popoverId + '").hidePopover()'}
+                >
+                    <Neos.Fusion.Form:Hidden
+                        field.name="nodePath"
+                        field.value={orphanNode.path}
+                    />
+                    <Neos.Fusion.Form:Hidden
+                        field.name="workspaceName"
+                        field.value={orphanNode.workspace}
+                    />
+                    <Neos.Fusion.Form:Button attributes.class="neos-button neos-button-danger">
+                        Yes, remove the node
+                    </Neos.Fusion.Form:Button>
+                </Neos.Fusion.Form:Form>
+            </footer>
+        </div>
+    `
+}
