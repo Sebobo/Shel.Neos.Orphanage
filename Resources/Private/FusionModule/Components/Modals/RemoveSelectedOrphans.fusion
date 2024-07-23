@@ -2,7 +2,7 @@ prototype(Shel.Neos.Orphanage:Component.Modal.RemoveSelectedOrphans) < prototype
     orphanNode = null
 
     @private {
-        popoverId = 'orphan-remove-selected'
+        popoverId = 'remove-selected-orphans-modal'
     }
 
     renderer = afx`

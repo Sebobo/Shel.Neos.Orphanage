@@ -21,7 +21,7 @@
 /**
  * Typography
  */
-.neos-content strong {
+.neos-module-wrap strong {
     font-weight: bold;
 }
 

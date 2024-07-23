@@ -1,8 +1,13 @@
 prototype(Shel.Neos.Orphanage:Component.Modal.RemoveOrphan) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        orphanNode = ${PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface')}
+    }
+
     orphanNode = null
 
     @private {
-        popoverId = ${'orphan-remove-' + props.orphanNode.path + '-' + props.orphanNode.workspace}
+        popoverId = 'remove-orphan-modal'
     }
 
     renderer = afx`
@@ -17,13 +22,21 @@ prototype(Shel.Neos.Orphanage:Component.Modal.RemoveOrphan) < prototype(Neos.Fus
                     <i class="fas fa-times"></i>
                 </button>
                 <div class="neos-header">
-                    Do you really want to delete the node "{props.orphanNode.path}" and its child nodes?
+                    Do you really want to delete the node and its child nodes?
                 </div>
             </header>
             <section>
                 <p>
-                    This will remove the node and its child nodes. This operation cannot be undone.
+                    This will remove the node <em>"{props.orphanNode.label}"</em> and its child nodes.<br/>
+                    This operation cannot be undone.
                 </p>
+                <br/>
+                <strong>Node path:</strong>
+                <br/>
+                <br/>
+                <code>
+                    {props.orphanNode.path}
+                </code>
             </section>
             <footer>
                 <button
@@ -39,7 +52,7 @@ prototype(Shel.Neos.Orphanage:Component.Modal.RemoveOrphan) < prototype(Neos.Fus
                     form.target.format="htmx"
                     attributes.class="neos-inline"
                     attributes.hx-post={form.getTarget()}
-                    attributes.hx-target="closest tr"
+                    attributes.hx-target={'#orphan-row-' + props.orphanNode.identifier}
                     attributes.hx-swap="delete"
                     attributes.hx-disabled-elt="find button"
                     attributes.hx-on--after-request={'document.getElementById("' + private.popoverId + '").hidePopover()'}

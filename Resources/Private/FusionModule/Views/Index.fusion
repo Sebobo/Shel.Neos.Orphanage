@@ -41,14 +41,15 @@ prototype(Shel.Neos.Orphanage:Views.Index) < prototype(Neos.Fusion:Component) {
                         class="neos-button neos-button-danger"
                         type="button"
                         title="Remove node"
-                        popovertarget="orphan-remove-selected"
+                        popovertarget="remove-selected-orphans-modal"
                         @if={props.totalOrphanNodes > 0}
                     >
                         <i class="fas fa-trash icon-white"></i> Remove all currently filtered nodes
                     </button>
-                    <Shel.Neos.Orphanage:Component.Modal.RemoveSelectedOrphans />
                 </div>
             </section>
+            <section id="popover-container"></section>
+            <Shel.Neos.Orphanage:Component.Modal.RemoveSelectedOrphans />
         `
         htmx = afx`
             <Shel.Neos.Orphanage:Component.NodeTable
