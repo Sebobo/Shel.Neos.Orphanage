@@ -58,6 +58,7 @@ final class OrphanageController extends AbstractModuleController
         $orphanData = array_map(function (NodeData $orphanNode) {
             $nodeType = $orphanNode->getNodeType();
             return [
+                'identifier' => $orphanNode->getIdentifier(),
                 'path' => $orphanNode->getPath(),
                 'nodeType' => $nodeType->getName(),
                 'workspace' => $orphanNode->getWorkspace()->getName(),
@@ -79,10 +80,35 @@ final class OrphanageController extends AbstractModuleController
         ]);
     }
 
+    /**
+     * Removes a single orphan node and its children in the given workspace if the request is a POST request.
+     * If the request is a GET request, the user is asked for confirmation.
+     */
     public function removeOrphanNodeAction(string $nodePath, string $workspaceName): void
     {
-        $this->removeNodeAndChildNodesInWorkspaceByPath($nodePath, $workspaceName);
-        $this->addFlashMessage(sprintf('Removed orphan node in path "%s"', $nodePath));
+        if ($this->request->getHttpRequest()->getMethod() === 'POST') {
+            $this->removeNodeAndChildNodesInWorkspaceByPath($nodePath, $workspaceName);
+            $this->addFlashMessage(sprintf('Removed orphan node in path "%s"', $nodePath));
+        } else {
+            $context = $this->contentContextFactory->create([
+                'workspaceName' => $workspaceName,
+                'invisibleContentShown' => true,
+                'inaccessibleContentShown' => true,
+            ]);
+
+            $node = $context->getNode($nodePath);
+
+            if (!$node) {
+                $this->addFlashMessage(
+                    'Please reload and try again',
+                    'Orphaned node not found',
+                    Message::SEVERITY_ERROR
+                );
+                $this->throwStatus(404);
+            }
+
+            $this->view->assign('orphanNode', $node);
+        }
     }
 
     public function removeSelectedOrphanNodesAction(string $workspaceName, string $nodeTypeFilter = null): void
@@ -132,12 +158,26 @@ final class OrphanageController extends AbstractModuleController
         }
 
         $node = $context->getNode($nodePath);
-        if ($node->getNodeType()->isOfType('Neos.Neos:Document')) {
-            $node->moveInto($parentNode);
-            $this->addFlashMessage(sprintf('Adopted document node "%s" into orphanage', $nodePath));
+
+        if (!$node) {
+            $this->addFlashMessage(
+                'Please reload and try again',
+                'Orphaned node not found',
+                Message::SEVERITY_ERROR
+            );
+            $this->throwStatus(404);
+        }
+
+        if ($this->request->getHttpRequest()->getMethod() === 'POST') {
+            if ($node->getNodeType()->isOfType('Neos.Neos:Document')) {
+                $node->moveInto($parentNode);
+                $this->addFlashMessage(sprintf('Adopted document node "%s" into orphanage', $nodePath));
+            } else {
+                $node->moveInto($parentNode->getNode('orphans'));
+                $this->addFlashMessage(sprintf('Adopted content node "%s" into orphanage', $nodePath));
+            }
         } else {
-            $node->moveInto($parentNode->getNode('orphans'));
-            $this->addFlashMessage(sprintf('Adopted content node "%s" into orphanage', $nodePath));
+            $this->view->assign('orphanNode', $node);
         }
     }
 

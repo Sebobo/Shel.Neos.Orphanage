@@ -9,6 +9,6 @@ Shel.Neos.Orphanage.OrphanageController {
     }
 
     # Async actions which don't need any rendering, HTMX instructions are sent via HTTP headers
-    removeOrphanNode = ''
-    adoptOrphanNode = ''
+    removeOrphanNode = Shel.Neos.Orphanage:Views.Remove
+    adoptOrphanNode = Shel.Neos.Orphanage:Views.Adopt
 }

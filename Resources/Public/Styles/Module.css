@@ -21,8 +21,12 @@
 /**
  * Typography
  */
-.neos-content strong {
+.neos-module-wrap strong {
     font-weight: bold;
+}
+
+.neos-module-wrap em {
+    font-style: italic;
 }
 
 /**

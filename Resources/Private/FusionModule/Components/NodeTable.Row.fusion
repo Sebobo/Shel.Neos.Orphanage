@@ -1,0 +1,57 @@
+prototype(Shel.Neos.Orphanage:Component.NodeTable.Row) < prototype(Neos.Fusion:Component) {
+    orphanNode = null
+
+    @private {
+        removeAction = Neos.Fusion:ActionUri {
+            action = 'removeOrphanNode'
+            format = 'htmx'
+            arguments {
+                nodePath = ${props.orphanNode.path}
+                workspaceName = 'live'
+            }
+        }
+        adoptAction = Neos.Fusion:ActionUri {
+            action = 'adoptOrphanNode'
+            format = 'htmx'
+            arguments {
+                nodePath = ${props.orphanNode.path}
+                workspaceName = 'live'
+            }
+        }
+        removeOrphanPopoverId = 'remove-orphan-modal'
+        adoptOrphanPopoverId = 'adopt-orphan-modal'
+    }
+
+    renderer = afx`
+        <tr id={'orphan-row-' + props.orphanNode.identifier}>
+            <td>{props.orphanNode.path}</td>
+            <td>{props.orphanNode.workspace}</td>
+            <td>{props.orphanNode.nodeType}</td>
+            <td>{props.orphanNode.childNodes}</td>
+            <td>
+                <button
+                    class='neos-button neos-button-danger'
+                    type='button'
+                    title='Remove node'
+                    hx-get={private.removeAction}
+                    hx-target='#popover-container'
+                    hx-swap='innerHTML'
+                    hx-on--after-request={'document.getElementById("' + private.removeOrphanPopoverId + '").showPopover()'}
+                >
+                    <i class='fas fa-trash icon-white'></i>
+                </button>
+                <button
+                    class='neos-button neos-button-warning'
+                    type='button'
+                    title='Adopt node'
+                    hx-get={private.adoptAction}
+                    hx-target='#popover-container'
+                    hx-swap='innerHTML'
+                    hx-on--after-request={'document.getElementById("' + private.adoptOrphanPopoverId + '").showPopover()'}
+                >
+                    <i class='fas fa-hands-helping icon-white'></i>
+                </button>
+            </td>
+        </tr>
+    `
+}
