@@ -14,3 +14,11 @@ roles:
         permission: GRANT
       - privilegeTarget: 'Shel.Neos.Orphanage:Module'
         permission: GRANT
+  'Shel.Neos.Orphanage:ContentManager':
+    label: Orphanage Content Manager
+    description: The role allows to remove or adopt orphaned content.
+    privileges:
+      - privilegeTarget: 'Shel.Neos.Orphanage:Backend.Module.Management.Orphanage'
+        permission: GRANT
+      - privilegeTarget: 'Shel.Neos.Orphanage:Module'
+        permission: GRANT
