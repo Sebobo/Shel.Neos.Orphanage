@@ -1,0 +1,11 @@
+prototype(Shel.Neos.Orphanage:Views.Adopt) < prototype(Neos.Fusion:Component) {
+    orphanNode = ${orphanNode}
+
+    renderer = Neos.Fusion:Match {
+        @subject = ${request.httpRequest.method}
+        @default = afx`
+            <Shel.Neos.Orphanage:Component.Modal.AdoptOrphan orphanNode={orphanNode} />
+        `
+        POST = ''
+    }
+}

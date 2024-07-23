@@ -158,12 +158,26 @@ final class OrphanageController extends AbstractModuleController
         }
 
         $node = $context->getNode($nodePath);
-        if ($node->getNodeType()->isOfType('Neos.Neos:Document')) {
-            $node->moveInto($parentNode);
-            $this->addFlashMessage(sprintf('Adopted document node "%s" into orphanage', $nodePath));
+
+        if (!$node) {
+            $this->addFlashMessage(
+                'Please reload and try again',
+                'Orphaned node not found',
+                Message::SEVERITY_ERROR
+            );
+            $this->throwStatus(404);
+        }
+
+        if ($this->request->getHttpRequest()->getMethod() === 'POST') {
+            if ($node->getNodeType()->isOfType('Neos.Neos:Document')) {
+                $node->moveInto($parentNode);
+                $this->addFlashMessage(sprintf('Adopted document node "%s" into orphanage', $nodePath));
+            } else {
+                $node->moveInto($parentNode->getNode('orphans'));
+                $this->addFlashMessage(sprintf('Adopted content node "%s" into orphanage', $nodePath));
+            }
         } else {
-            $node->moveInto($parentNode->getNode('orphans'));
-            $this->addFlashMessage(sprintf('Adopted content node "%s" into orphanage', $nodePath));
+            $this->view->assign('orphanNode', $node);
         }
     }
 

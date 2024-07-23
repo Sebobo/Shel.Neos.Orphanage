@@ -1,8 +1,13 @@
 prototype(Shel.Neos.Orphanage:Component.Modal.AdoptOrphan) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        orphanNode = ${PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface')}
+    }
+
     orphanNode = null
 
     @private {
-        popoverId = ${'orphan-adopt-' + props.orphanNode.path + '-' + props.orphanNode.workspace}
+        popoverId = 'adopt-orphan-modal'
     }
 
     renderer = afx`
@@ -17,20 +22,36 @@ prototype(Shel.Neos.Orphanage:Component.Modal.AdoptOrphan) < prototype(Neos.Fusi
                     <i class="fas fa-times"></i>
                 </button>
                 <div class="neos-header">
-                    Do you really want to adopt the node "{props.orphanNode.path}" and its child nodes?
+                    Do you really want to adopt the node and its child nodes?
                 </div>
             </header>
             <section>
                 <p>
-                    This will adopt the node and its children and move them to the given parent node.
+                    This will adopt the node <em>"{props.orphanNode.label}"</em> and its children and move them into the given parent node.
                 </p>
-                <br />
+                <br/>
+                <strong>Node path:</strong>
+                <br/>
+                <br/>
+                <code>
+                    {props.orphanNode.path}
+                </code>
+            </section>
+            <footer>
+                <button
+                    type="button"
+                    class="neos-button"
+                    popovertarget={private.popoverId}
+                    popovertargetaction="close"
+                >
+                    Cancel
+                </button>
                 <Neos.Fusion.Form:Form
                     form.target.action="adoptOrphanNode"
                     form.target.format="htmx"
                     attributes.class="neos-inline"
                     attributes.hx-post={form.getTarget()}
-                    attributes.hx-target="closest tr"
+                    attributes.hx-target={'#orphan-row-' + props.orphanNode.identifier}
                     attributes.hx-swap="delete"
                     attributes.hx-disabled-elt="find button"
                     attributes.hx-on--after-request={'document.getElementById("' + private.popoverId + '").hidePopover()'}
@@ -43,20 +64,10 @@ prototype(Shel.Neos.Orphanage:Component.Modal.AdoptOrphan) < prototype(Neos.Fusi
                         field.name="workspaceName"
                         field.value={orphanNode.workspace}
                     />
-                    <Neos.Fusion.Form:Button attributes.class="neos-button neos-button-danger">
+                    <Neos.Fusion.Form:Button attributes.class="neos-button neos-button-warning">
                         Yes, adopt the node
                     </Neos.Fusion.Form:Button>
                 </Neos.Fusion.Form:Form>
-            </section>
-            <footer>
-                <button
-                    type="button"
-                    class="neos-button"
-                    popovertarget={private.popoverId}
-                    popovertargetaction="close"
-                >
-                    Cancel
-                </button>
             </footer>
         </div>
     `

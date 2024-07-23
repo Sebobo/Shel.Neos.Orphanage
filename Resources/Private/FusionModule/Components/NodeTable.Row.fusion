@@ -10,7 +10,16 @@ prototype(Shel.Neos.Orphanage:Component.NodeTable.Row) < prototype(Neos.Fusion:C
                 workspaceName = 'live'
             }
         }
+        adoptAction = Neos.Fusion:ActionUri {
+            action = 'adoptOrphanNode'
+            format = 'htmx'
+            arguments {
+                nodePath = ${props.orphanNode.path}
+                workspaceName = 'live'
+            }
+        }
         removeOrphanPopoverId = 'remove-orphan-modal'
+        adoptOrphanPopoverId = 'adopt-orphan-modal'
     }
 
     renderer = afx`
@@ -32,14 +41,16 @@ prototype(Shel.Neos.Orphanage:Component.NodeTable.Row) < prototype(Neos.Fusion:C
                     <i class='fas fa-trash icon-white'></i>
                 </button>
                 <button
-                    class='neos-button neos-button-danger'
+                    class='neos-button neos-button-warning'
                     type='button'
                     title='Adopt node'
-                    popovertarget={'orphan-adopt-' + props.orphanNode.path + '-' + props.orphanNode.workspace}
+                    hx-get={private.adoptAction}
+                    hx-target='#popover-container'
+                    hx-swap='innerHTML'
+                    hx-on--after-request={'document.getElementById("' + private.adoptOrphanPopoverId + '").showPopover()'}
                 >
                     <i class='fas fa-hands-helping icon-white'></i>
                 </button>
-                <Shel.Neos.Orphanage:Component.Modal.AdoptOrphan orphanNode={props.orphanNode} />
             </td>
         </tr>
     `

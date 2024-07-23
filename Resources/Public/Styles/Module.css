@@ -25,6 +25,10 @@
     font-weight: bold;
 }
 
+.neos-module-wrap em {
+    font-style: italic;
+}
+
 /**
  * Indicator styles
  */
