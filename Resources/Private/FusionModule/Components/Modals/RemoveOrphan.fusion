@@ -56,6 +56,7 @@ prototype(Shel.Neos.Orphanage:Component.Modal.RemoveOrphan) < prototype(Neos.Fus
                     attributes.hx-swap="delete"
                     attributes.hx-disabled-elt="find button"
                     attributes.hx-on--after-request={'document.getElementById("' + private.popoverId + '").hidePopover()'}
+                    attributes.hx-include="[name='moduleArguments[nodeTypeFilter]']"
                 >
                     <Neos.Fusion.Form:Hidden
                         field.name="nodePath"

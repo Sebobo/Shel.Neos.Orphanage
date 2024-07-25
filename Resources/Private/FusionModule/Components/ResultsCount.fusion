@@ -1,0 +1,12 @@
+prototype(Shel.Neos.Orphanage:Component.ResultsCount) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        count = ${PropTypes.integer}
+    }
+
+    count = 0
+
+    renderer = afx`
+        <strong id="results-count" hx-swap-oob='true'>{props.count}</strong>
+    `
+}

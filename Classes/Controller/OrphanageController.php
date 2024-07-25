@@ -84,11 +84,12 @@ final class OrphanageController extends AbstractModuleController
      * Removes a single orphan node and its children in the given workspace if the request is a POST request.
      * If the request is a GET request, the user is asked for confirmation.
      */
-    public function removeOrphanNodeAction(string $nodePath, string $workspaceName): void
+    public function removeOrphanNodeAction(string $nodePath, string $workspaceName, string $nodeTypeFilter = null): void
     {
         if ($this->request->getHttpRequest()->getMethod() === 'POST') {
             $this->removeNodeAndChildNodesInWorkspaceByPath($nodePath, $workspaceName);
             $this->addFlashMessage(sprintf('Removed orphan node in path "%s"', $nodePath));
+            $this->view->assign('totalOrphanNodes', $this->getNumberOfOrphanedNodes($workspaceName, $nodeTypeFilter));
         } else {
             $context = $this->contentContextFactory->create([
                 'workspaceName' => $workspaceName,
@@ -119,15 +120,22 @@ final class OrphanageController extends AbstractModuleController
             $this->removeNodeAndChildNodesInWorkspaceByPath($orphanedNode->getPath(), $workspaceName);
         }
         if ($nodeTypeFilter) {
-            $this->addFlashMessage(sprintf(
-                'Removed %d orphan nodes of type "%s" in workspace "%s"',
-                $orphanedNodesCount, $nodeTypeFilter, $workspaceName
-            ));
+            $this->addFlashMessage(
+                sprintf(
+                    'Removed %d orphan nodes of type "%s" in workspace "%s"',
+                    $orphanedNodesCount,
+                    $nodeTypeFilter,
+                    $workspaceName
+                )
+            );
         } else {
-            $this->addFlashMessage(sprintf(
-                'Removed %d orphan nodes in workspace "%s"',
-                $orphanedNodesCount, $workspaceName
-            ));
+            $this->addFlashMessage(
+                sprintf(
+                    'Removed %d orphan nodes in workspace "%s"',
+                    $orphanedNodesCount,
+                    $workspaceName
+                )
+            );
         }
         $this->redirect('index', null, null, [
             'workspaceName' => $workspaceName,
@@ -135,7 +143,7 @@ final class OrphanageController extends AbstractModuleController
         ]);
     }
 
-    public function adoptOrphanNodeAction(string $nodePath, string $workspaceName): void
+    public function adoptOrphanNodeAction(string $nodePath, string $workspaceName, string $nodeTypeFilter = null): void
     {
         $context = $this->contentContextFactory->create([
             'workspaceName' => $workspaceName,
@@ -176,6 +184,7 @@ final class OrphanageController extends AbstractModuleController
                 $node->moveInto($parentNode->getNode('orphans'));
                 $this->addFlashMessage(sprintf('Adopted content node "%s" into orphanage', $nodePath));
             }
+            $this->view->assign('totalOrphanNodes', $this->getNumberOfOrphanedNodes($workspaceName, $nodeTypeFilter));
         } else {
             $this->view->assign('orphanNode', $node);
         }

@@ -1,4 +1,10 @@
 prototype(Shel.Neos.Orphanage:Component.NodeTable) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        totalOrphanNodes = ${PropTypes.integer}
+        orphanNodes = ${PropTypes.arrayOf(PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface'))}
+    }
+
     totalOrphanNodes = 0
     orphanNodes = ${[]}
 
@@ -6,7 +12,8 @@ prototype(Shel.Neos.Orphanage:Component.NodeTable) < prototype(Neos.Fusion:Compo
         <section id='results' hx-swap-oob='true'>
             <br />
             <p>
-                <strong>{props.totalOrphanNodes}</strong> orphaned nodes found that match the filter.
+                <Shel.Neos.Orphanage:Component.ResultsCount count={props.totalOrphanNodes} />
+                {' '}orphaned nodes found that match the filter.
             </p>
             <table class='neos-table'>
                 <thead>

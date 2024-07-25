@@ -1,11 +1,20 @@
 prototype(Shel.Neos.Orphanage:Views.Remove) < prototype(Neos.Fusion:Component) {
-    orphanNode = ${orphanNode}
+    @propTypes {
+        @strict = true
+        orphanNode = ${PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface').required}
+        totalOrphanNodes = ${PropTypes.integer.required}
+    }
+
+    orphanNode = null
+    totalOrphanNodes = 0
 
     renderer = Neos.Fusion:Match {
         @subject = ${request.httpRequest.method}
         @default = afx`
-            <Shel.Neos.Orphanage:Component.Modal.RemoveOrphan orphanNode={orphanNode} />
+            <Shel.Neos.Orphanage:Component.Modal.RemoveOrphan orphanNode={props.orphanNode} />
         `
-        POST = ''
+        POST = afx`
+            <Shel.Neos.Orphanage:Component.ResultsCount count={props.totalOrphanNodes} />
+        `
     }
 }
