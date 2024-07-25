@@ -1,4 +1,9 @@
 prototype(Shel.Neos.Orphanage:Component.NodeTable.Row) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        orphanNode = ${PropTypes.dataStructure({'identifier': PropTypes.string, 'path': PropTypes.string, 'nodeType': PropTypes.string, 'workspace': PropTypes.string, 'childNodes': PropTypes.integer})}
+    }
+
     orphanNode = null
 
     @private {

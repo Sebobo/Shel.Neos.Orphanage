@@ -1,11 +1,11 @@
 prototype(Shel.Neos.Orphanage:Views.Index) < prototype(Neos.Fusion:Component) {
     @propTypes {
         @strict = true
-        orphanNodes = ${PropTypes.arrayOf(PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface')).required}
-        totalOrphanNodes = ${PropTypes.integer.required}
-        filterableNodeTypes = ${PropTypes.arrayOf(PropTypes.string).required}
-        currentPage = ${PropTypes.integer.required}
-        pageCount = ${PropTypes.integer.required}
+        orphanNodes = ${PropTypes.arrayOf(PropTypes.dataStructure({'identifier': PropTypes.string, 'path': PropTypes.string, 'nodeType': PropTypes.string, 'workspace': PropTypes.string, 'childNodes': PropTypes.integer}))}
+        totalOrphanNodes = ${PropTypes.integer}
+        filterableNodeTypes = ${PropTypes.arrayOf(PropTypes.string)}
+        currentPage = ${PropTypes.integer}
+        pageCount = ${PropTypes.integer}
         nodeTypeFilter = ${PropTypes.string}
     }
 

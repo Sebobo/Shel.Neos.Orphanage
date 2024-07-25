@@ -1,4 +1,10 @@
 prototype(Shel.Neos.Orphanage:Component.Pagination.Link) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        pageNumber = ${PropTypes.integer}
+        current = ${PropTypes.boolean}
+    }
+
     pageNumber = 1
     current = false
 

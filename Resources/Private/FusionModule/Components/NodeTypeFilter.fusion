@@ -1,4 +1,10 @@
 prototype(Shel.Neos.Orphanage:Component.NodeTypeFilter) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        filterableNodeTypes = ${PropTypes.arrayOf(PropTypes.string)}
+        nodeTypeFilter = ${PropTypes.string}
+    }
+
     nodeTypeFilter = null
     filterableNodeTypes = ${[]}
 

@@ -1,8 +1,8 @@
 prototype(Shel.Neos.Orphanage:Views.Adopt) < prototype(Neos.Fusion:Component) {
     @propTypes {
         @strict = true
-        orphanNode = ${PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface').required}
-        totalOrphanNodes = ${PropTypes.integer.required}
+        orphanNode = ${PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface')}
+        totalOrphanNodes = ${PropTypes.integer}
     }
 
     orphanNode = null

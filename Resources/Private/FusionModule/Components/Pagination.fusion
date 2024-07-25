@@ -1,4 +1,10 @@
 prototype(Shel.Neos.Orphanage:Component.Pagination) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        pageCount = ${PropTypes.integer}
+        currentPage = ${PropTypes.integer}
+    }
+
     pageCount = 1
     currentPage = 1
 

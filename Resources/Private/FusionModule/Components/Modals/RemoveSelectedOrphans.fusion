@@ -1,4 +1,9 @@
 prototype(Shel.Neos.Orphanage:Component.Modal.RemoveSelectedOrphans) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        orphanNode = ${PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface')}
+    }
+
     orphanNode = null
 
     @private {

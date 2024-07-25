@@ -2,7 +2,7 @@ prototype(Shel.Neos.Orphanage:Component.NodeTable) < prototype(Neos.Fusion:Compo
     @propTypes {
         @strict = true
         totalOrphanNodes = ${PropTypes.integer}
-        orphanNodes = ${PropTypes.arrayOf(PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface'))}
+        orphanNodes = ${PropTypes.arrayOf(PropTypes.dataStructure({'identifier': PropTypes.string, 'path': PropTypes.string, 'nodeType': PropTypes.string, 'workspace': PropTypes.string, 'childNodes': PropTypes.integer}))}
     }
 
     totalOrphanNodes = 0
