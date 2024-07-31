@@ -27,10 +27,7 @@ prototype(Shel.Neos.Orphanage:Component.NodeTable) < prototype(Neos.Fusion:Compo
                 </thead>
                 <tbody>
                 <Neos.Fusion:Loop items={props.orphanNodes} itemName='orphanNode'>
-                    <Shel.Neos.Orphanage:Component.NodeTable.Row
-                        orphanNode={orphanNode}
-                        createNewPopoverId={props.createNewPopoverId}
-                    />
+                    <Shel.Neos.Orphanage:Component.NodeTable.Row orphanNode={orphanNode}/>
                 </Neos.Fusion:Loop>
                 </tbody>
             </table>
