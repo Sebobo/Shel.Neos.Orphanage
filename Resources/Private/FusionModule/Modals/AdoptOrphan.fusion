@@ -1,0 +1,56 @@
+prototype(Shel.Neos.Orphanage:Component.Modal.AdoptOrphan) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        orphanNode = ${PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\NodeInterface')}
+    }
+
+    orphanNode = null
+
+    @private {
+        popoverId = 'adopt-orphan-modal'
+    }
+
+    renderer = afx`
+        <Shel.Neos.Orphanage:Component.Modal
+            id={private.popoverId}
+            title="Do you really want to adopt the node and its child nodes?"
+            confirmButton={private.confirmButton}
+        >
+            <p>
+                This will adopt the node <em>"{props.orphanNode.label}"</em> and its children and move them into the
+                given parent node.
+            </p>
+            <br />
+            <strong>Node path:</strong>
+            <br />
+            <br />
+            <code>
+                {props.orphanNode.path}
+            </code>
+            <Neos.Fusion.Form:Form
+                @path="confirmButton"
+                form.target.action="adoptOrphanNode"
+                form.target.format="htmx"
+                attributes.class="neos-inline"
+                attributes.hx-post={form.getTarget()}
+                attributes.hx-target={'#orphan-row-' + props.orphanNode.identifier}
+                attributes.hx-swap="delete"
+                attributes.hx-disabled-elt="find button"
+                attributes.hx-on--after-request={'document.getElementById("' + private.popoverId + '").hidePopover()'}
+                attributes.hx-include="[name='moduleArguments[nodeTypeFilter]']"
+            >
+                <Neos.Fusion.Form:Hidden
+                    field.name="nodePath"
+                    field.value={orphanNode.path}
+                />
+                <Neos.Fusion.Form:Hidden
+                    field.name="workspaceName"
+                    field.value={orphanNode.workspace}
+                />
+                <Neos.Fusion.Form:Button attributes.class="neos-button neos-button-warning">
+                    Yes, adopt the node
+                </Neos.Fusion.Form:Button>
+            </Neos.Fusion.Form:Form>
+        </Shel.Neos.Orphanage:Component.Modal>
+    `
+}

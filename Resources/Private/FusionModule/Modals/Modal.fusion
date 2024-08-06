@@ -1,0 +1,46 @@
+prototype(Shel.Neos.Orphanage:Component.Modal) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        @strict = true
+        id = ${PropTypes.string.isRequired}
+        title = ${PropTypes.string.isRequired}
+        content = ${PropTypes.string}
+        confirmButton = ${PropTypes.string}
+    }
+
+    id = null
+    title = ''
+    content = ''
+    confirmButton = ''
+
+    renderer = afx`
+        <div popover id={props.id}>
+            <header>
+                <button
+                    type="button"
+                    class="neos-close neos-button"
+                    popovertarget={props.id}
+                    popovertargetaction="close"
+                >
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="neos-header">
+                    {props.title}
+                </div>
+            </header>
+            <section>
+                {props.content}
+            </section>
+            <footer>
+                <button
+                    type="button"
+                    class="neos-button"
+                    popovertarget={props.id}
+                    popovertargetaction="close"
+                >
+                    Cancel
+                </button>
+                {props.confirmButton}
+            </footer>
+        </div>
+    `
+}
