@@ -21,6 +21,6 @@ final class HtmxRequestPattern implements RequestPatternInterface
 {
     public function matchRequest(ActionRequest $request): bool
     {
-        return $request->getFormat() === 'htmx';
+        return $request->getFormat() === 'htmx' && $request->getControllerPackageKey() === 'Shel.Neos.Orphanage';
     }
 }
